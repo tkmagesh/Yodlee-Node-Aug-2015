@@ -1,6 +1,9 @@
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+var url = require('url');
+var calculator = require('./calculator');
+
 
 var staticResourceExtns = ['.html','.css','.js','.png','.ico','.jpg','.xml','.json'];
 
@@ -23,8 +26,13 @@ var server = http.createServer(function(req, res){
             return;
         }
         fs.createReadStream(resourcePath).pipe(res);
-    } else if (req.url.pathname === '/calculator'){
-
+    } else if (req.url.pathname === '/calculator' && req.method === 'GET'){
+        var operation = req.url.query.operation,
+            n1 = parseInt(req.url.query.n1),
+            n2 = parseInt(req.url.query.n2),
+            result = calculator[operation](n1,n2);
+        res.write(result.toString());
+        res.end();
     } else {
         res.statusCode = 404;
         res.end();
