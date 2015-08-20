@@ -1,19 +1,16 @@
 var http = require('http');
-var server = http.createServer(function(req, res){
-    console.log("a new connection is established for ", req.url);
-    /*
-    1. resource ? req.url
-        currdir -> __dirname
-        use path.join for creating the resource path
+var path = require('path');
+var fs = require('fs');
 
-    2. fs.exists, fs.existsSync
-    3. if file not exists
+var server = http.createServer(function(req, res){
+    var resourceUrl = req.url === '/' ? '/index.html' : req.url;
+    var resourcePath = path.join(__dirname, resourceUrl);
+    if (!fs.existsSync(resourcePath)){
         res.statusCode = 404;
         res.end();
-
-    */
-    res.write('<h1>Welcome to node</h1>');
-    res.end();
+        return;
+    }
+    fs.createReadStream(resourcePath).pipe(res);
 });
 server.listen(8080);
 console.log("server listening on port 8080");
