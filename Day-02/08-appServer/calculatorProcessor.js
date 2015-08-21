@@ -3,6 +3,7 @@ var calculator = require('./calculator');
 var qs = require('querystring');
 
 module.exports = function(req, res){
+    console.log("calculator processor");
     if (req.url.pathname === '/calculator' && req.method === 'GET'){
         var operation = req.url.query.operation,
             n1 = parseInt(req.url.query.n1),
