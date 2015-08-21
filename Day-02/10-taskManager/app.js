@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('./middlewares/session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -21,11 +22,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session);
+//app.use(session({timeout : 5, walkInterval:1}));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next){
+    req.session.reqCount = req.session.reqCount || 0;
+    ++req.session.reqCount;
+    console.log("req Count = ", req.session.reqCount);
+    next();
+});
 app.use('/', routes);
 app.use('/users', users);
 app.use('/tasks', tasks);
+
 
 
 // catch 404 and forward to error handler
