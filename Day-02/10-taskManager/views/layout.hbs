@@ -3,8 +3,27 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        #message{
+            position: absolute;
+            bottom: 0px;
+            margin: 10px;
+            right: 0px;
+            border : 2px solid gray;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+       var socket = io();
+       socket.on('taskMessage', function(msg){
+           document.getElementById("message").innerHTML = msg;
+       });
+    </script>
   </head>
   <body>
     {{{body}}}
+    <div id="message"></div>
   </body>
 </html>

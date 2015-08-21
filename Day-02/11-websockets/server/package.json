@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "description": "a sample chat server for demonstrating web sockets",
+  "main": "chatServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "websocket"
+  ],
+  "author": "Magesh K",
+  "license": "ISC",
+  "dependencies": {
+    "nodejs-websocket": "^1.3.0"
+  }
+}

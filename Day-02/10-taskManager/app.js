@@ -27,12 +27,12 @@ app.use(session);
 //app.use(session({timeout : 5, walkInterval:1}));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function(req, res, next){
+/*app.use(function(req, res, next){
     req.session.reqCount = req.session.reqCount || 0;
     ++req.session.reqCount;
     console.log("req Count = ", req.session.reqCount);
     next();
-});
+});*/
 app.use('/', routes);
 app.use('/users', users);
 app.use('/tasks', tasks);

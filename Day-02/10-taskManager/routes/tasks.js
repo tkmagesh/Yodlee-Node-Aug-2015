@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var io = require('socket.io')();
+
 
 var taskList = [
      { id : 1, name : 'Watch a movie', isCompleted : false},
@@ -30,6 +32,7 @@ router.post('/new', function(req, res, next){
         isCompleted : false
     };
     taskList.push(newTask);
+    io.emit('taskMessage', 'a new task is added [' + newTask.name + ']');
     res.redirect('/tasks');
 });
 
@@ -41,6 +44,7 @@ router.get('/toggle/:id', function(req, res, next){
     if (task){
         task.isCompleted = !task.isCompleted;
     }
+    io.emit('taskMessage', 'task [' + task.name + '] is toggled');
     res.redirect('/tasks');
 });
 

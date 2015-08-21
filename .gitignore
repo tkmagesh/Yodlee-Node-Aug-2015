@@ -42,3 +42,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /Day-02/10-taskManager/node_modules/
+/Day-02/12-Socket-IO/node_modules/
+/Day-02/11-websockets/server/node_modules/
