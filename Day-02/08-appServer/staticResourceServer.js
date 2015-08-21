@@ -6,19 +6,24 @@ var staticResourceExtns = ['.html','.css','.js','.png','.ico','.jpg','.xml','.js
 function isStatic(resource){
     return staticResourceExtns.indexOf(path.extname(resource)) !== -1;
 }
+var _staticResourceFolder = '';
 
-module.exports = function(req, res, next){
-    if (isStatic(req.url.pathname)){
-        var resourceUrl = req.url.pathname === '/' ? '/index.html' : req.url.pathname;
+module.exports = function(staticResourceFolder){
+    _staticResourceFolder = staticResourceFolder;
 
-        var resourcePath = path.join(__dirname, resourceUrl);
-        if (!fs.existsSync(resourcePath)){
-            res.statusCode = 404;
-            res.end();
-            return;
+    return function(req, res, next){
+        if (isStatic(req.url.pathname)){
+            var resourceUrl = req.url.pathname === '/' ? '/index.html' : req.url.pathname;
+
+            var resourcePath = path.join(_staticResourceFolder, resourceUrl);
+            if (!fs.existsSync(resourcePath)){
+                res.statusCode = 404;
+                res.end();
+                return;
+            }
+            fs.createReadStream(resourcePath).pipe(res);
+        } else {
+            next();
         }
-        fs.createReadStream(resourcePath).pipe(res);
-    } else {
-        next();
     }
-}
+};
