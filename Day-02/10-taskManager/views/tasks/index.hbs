@@ -1,2 +1,26 @@
+<style>
+    .completed{
+        color : red;
+        text-decoration: line-through;
+        font-style: italic;
+    }
+</style>
 <h1>Task Manager</h1>
-{{list}}
+<h3>
+    <span class="completed">{{completed}}</span> / <span>{{total}}</span>
+</h3>
+<a href="/tasks/new">Add New</a>
+<ol>
+    {{#each list}}
+        <li>
+            {{#if isCompleted}}
+                <span class="completed">{{name}}</span>
+            {{else}}
+                <span>{{name}}</span>
+            {{/if}}
+             <a href="/tasks/toggle/{{id}}">X</a>
+        </li>
+    {{/each}}
+</ol>
+
+
